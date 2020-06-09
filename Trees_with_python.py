@@ -24,16 +24,33 @@ class BinaryTree:
          BinaryTree.inorderTraversal(head.left)
          print(head.data)
          BinaryTree.inorderTraversal(head.right)
+         
+    @staticmethod
+    def preorderTraversal(head):
+         if(head is None):
+             return
+         print(head.data)
+         BinaryTree.preorderTraversal(head.left)
+         BinaryTree.preorderTraversal(head.right)
+         
+         
+    @staticmethod
+    def postorderTraversal(head):
+         if(head is None):
+             return
+         BinaryTree.postorderTraversal(head.left)
+         BinaryTree.postorderTraversal(head.right)
+         print(head.data)
             
     def addNode(self,head,data):
         #For the first Node
         if(head is None):
-            print("Added in 1")
+            #print("Added in 1")
             #Create a New Node
             newnode=node()
             newnode.data = data
             self.head = newnode
-            return self.head
+            
         
         #For adding left nodes
         elif (head.data>=data):
@@ -43,21 +60,21 @@ class BinaryTree:
                 newnode.data = data
                 #Add the NewNode
                 head.left = newnode
-                print("Added in 2")
-                return self.head
+                #print("Added in 2")
+                
             else:
                 self.addNode(head.left, data)
         
         #For adding right nodes
-        elif(self.head.data<data):
+        elif(head.data<data):
             if(head.right is None):
                 #Create a New Node
                 newnode = node()
                 newnode.data = data
                 #Add node
                 head.right = newnode
-                print("Added in 3")
-                return self.head
+                #print("Added in 3")
+               
             else:
                 self.addNode(self.head.right, data)
                 
@@ -70,8 +87,11 @@ if __name__ == '__main__':
         t = int(input("Enter data: "))
         print()
         tree.addNode(tree.head,t)
-        print("Added node {}".format(i+1))
     print("Printing inorder")
     BinaryTree.inorderTraversal(tree.head)
+    print("Printing preorder")
+    BinaryTree.preorderTraversal(tree.head)
+    print("Printing postorder")
+    BinaryTree.postorderTraversal(tree.head)
     
             
