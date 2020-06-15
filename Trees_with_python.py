@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue Jun  9 17:06:58 2020
-
 @author: Admin
 """
 
@@ -45,7 +44,7 @@ class BinaryTree:
     def addNode(self,head,data):
         #For the first Node
         if(head is None):
-            #print("Added in 1")
+            print("Added in 1")
             #Create a New Node
             newnode=node()
             newnode.data = data
@@ -60,7 +59,7 @@ class BinaryTree:
                 newnode.data = data
                 #Add the NewNode
                 head.left = newnode
-                #print("Added in 2")
+                print("Added in 2")
                 
             else:
                 self.addNode(head.left, data)
@@ -73,11 +72,67 @@ class BinaryTree:
                 newnode.data = data
                 #Add node
                 head.right = newnode
-                #print("Added in 3")
+                print("Added in 3")
                
             else:
-                self.addNode(self.head.right, data)
+                self.addNode(head.right, data)
                 
+
+def minval(head):
+    if(head is None):
+        return -1
+    while(head.left!=None):
+        head=head.left
+    return head
+            
+# Given a binary search tree and a key, this function 
+# delete the key and returns the new root 
+def deleteNode(root, key): 
+  
+    # Base Case 
+    if root is None: 
+        return root  
+  
+    # If the key to be deleted is smaller than the root's 
+    # key then it lies in  left subtree 
+    if key < root.data: 
+        root.left = deleteNode(root.left, key) 
+  
+    # If the kye to be delete is greater than the root's key 
+    # then it lies in right subtree 
+    elif(key > root.data): 
+        root.right = deleteNode(root.right, key) 
+  
+    # If key is same as root's key, then this is the node 
+    # to be deleted 
+    else: 
+          
+        # Node with only one child or no child 
+        if root.left is None : 
+            temp = root.right  
+            root = None 
+            return temp  
+              
+        elif root.right is None : 
+            temp = root.left  
+            root = None
+            return temp 
+  
+        # Node with two children: Get the inorder successor 
+        # (smallest in the right subtree) 
+        temp = minval(root.right) 
+  
+        # Copy the inorder successor's content to this node 
+        root.data = temp.data
+  
+        # Delete the inorder successor 
+        root.right = deleteNode(root.right , temp.data) 
+  
+  
+    return root  
+            
+                
+             
                 
 if __name__ == '__main__':
     head = None
@@ -89,9 +144,11 @@ if __name__ == '__main__':
         tree.addNode(tree.head,t)
     print("Printing inorder")
     BinaryTree.inorderTraversal(tree.head)
-    print("Printing preorder")
-    BinaryTree.preorderTraversal(tree.head)
-    print("Printing postorder")
-    BinaryTree.postorderTraversal(tree.head)
-    
+    #print("Printing preorder")
+    #BinaryTree.preorderTraversal(tree.head)
+    #print("Printing postorder")
+    #BinaryTree.postorderTraversal(tree.head)
+    tree.head = deleteNode(tree.head, 10)
+    print(tree.head)
+    BinaryTree.inorderTraversal(tree.head)    
             
