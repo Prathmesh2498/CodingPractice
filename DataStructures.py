@@ -112,3 +112,99 @@ print(q.max_priority())
 print("Dequeue: {}".format(q.dequeue()))
 print(q.max_priority())
 
+"""
+NOTE:
+    A way to convert min pq to a max pq, just negate the priority values.
+"""
+
+#Heaps
+import math
+class Heap:
+    def __init__(self):
+        self.arr = []
+        self.size = 0
+        self.i = 1
+        self.arr.insert(0,99999)
+    
+    def __str__(self):
+        print(self.arr)
+        return " "
+     
+    #__MAX_HEAP__        
+    @staticmethod    
+    def max_heapify(self,i):
+        left = 2*i
+        right = 2* (i+1)
+        largest = i
+        if(left<=self.size - 1 and self.arr[left]>self.arr[i]):
+            largest = left
+        elif(right<=self.size - 1 and self.arr[right]>self.arr[i]):
+            largest = right
+        if largest != i:
+            self.arr[i], self.arr[largest] = self.arr[largest], self.arr[i]
+            Heap.max_heapify(self,largest)
+    
+            
+    @staticmethod
+    def heapify(self):
+        for i in range(math.floor(self.size/2),0,-1):
+            Heap.max_heapify(self,i)
+            
+    
+    def add_toMaxHeap(self, element=None):
+        if(element!=None):
+            self.arr.insert(self.i, element)
+            self.i+=1
+            self.size = len(self.arr)
+            Heap.heapify(self)
+            return
+        raise NameError("Element not provided")
+        
+            
+    #__MIN_HEAP__
+    @staticmethod
+    def min_Heapify(self, i):
+        left = 2*i
+        right = 2*(i+1)
+        smallest = i
+        if(left<=self.size - 1 and self.arr[left]<self.arr[i]):
+            smallest = left
+        elif(right<=self.size - 1 and self.arr[right]<self.arr[i]):
+            smallest = right
+        if(smallest!=i):
+            self.arr[i], self.arr[smallest] = self.arr[smallest], self.arr[i]
+            Heap.min_Heapify(self, smallest)
+    
+    
+    @staticmethod
+    def m_heapify(self):
+        for i in range(math.floor(self.size/2),0,-1):
+            Heap.min_Heapify(self,i)
+    
+    def add_toMinHeap(self, element = None):
+        if(element!=None):
+            self.arr.insert(i, element)
+            self.i+=1
+            self.size=len(self.arr)
+            Heap.m_heapify(self)
+            #As we don't count index 0, th e value there messes things up in recursive call
+            self.arr[0], self.arr[self.size-1] = self.arr[self.size-1], self.arr[0] 
+            return
+        raise NameError("Element not provided")
+    
+
+#Main for Heap
+h = Heap()
+
+#Call to Min Heap
+for i in range (0,5):
+    c = int(input("Enter Number: "))
+    h.add_toMinHeap(c)
+    print(h)
+
+#Call to Max Heap
+for i in range (0,5):
+    c = int(input("Enter Number: "))
+    h.add_toMaxHeap(c)
+    print(h)
+
