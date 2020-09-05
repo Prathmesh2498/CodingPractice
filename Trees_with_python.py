@@ -69,7 +69,6 @@ class BinaryTree:
     def addNode(self,head,data):
         #For the first Node
         if(head is None):
-            print("Added in 1")
             #Create a New Node
             newnode=node()
             newnode.data = data
@@ -83,9 +82,7 @@ class BinaryTree:
                 newnode = node()
                 newnode.data = data
                 #Add the NewNode
-                head.left = newnode
-                print("Added in 2")
-                
+                head.left = newnode  
             else:
                 self.addNode(head.left, data)
         
@@ -96,9 +93,7 @@ class BinaryTree:
                 newnode = node()
                 newnode.data = data
                 #Add node
-                head.right = newnode
-                print("Added in 3")
-               
+                head.right = newnode   
             else:
                 self.addNode(head.right, data)
                 

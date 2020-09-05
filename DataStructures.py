@@ -208,3 +208,161 @@ for i in range (0,5):
     h.add_toMaxHeap(c)
     print(h)
 
+
+#Union Find
+
+class uFind:
+    def __init__(self):
+        self.arr = []
+        self.size = []
+        self.num_components
+        
+    def init_input(self, arr):
+        self.arr = arr
+        self.size = [1] * len(arr)
+        self.num_components = len(arr)
+        
+    def num_components(self):
+        return self.num_components
+        
+    def connected(self, p, q):
+        if (self.arr[p] == self.arr[q]):
+            return True
+        return False
+    
+    def find(self, p):
+        root = p
+        while(self.arr[root]!=root):
+            root = self.arr[root]
+        
+        #Path Compression
+        while(p!=root):
+            t=self.arr[p]
+            self.arr[p] = root
+            p = t
+        
+        return root
+    
+    def union(self, p, q):
+        
+        root1 = self.find(p)
+        root2 = self.find(q)
+        #First check if p and q are already in same component
+        if(root1 == root2):
+            return
+        
+        if (self.size[root1]<=self.size[root2]):
+            self.size[root2]+=self.size[root1]
+            self.arr[root1] = root2
+        else:
+            self.size[root1]+=self.size[root2]
+            self.arr[root2] = root1
+            
+        self.num_components-=1
+        
+            
+#Main for Union Find
+u = uFind()
+
+arr = [i for i in range(0,5)]
+
+u.init_input(arr)
+print(u.num_components)#5
+u.union(0,1)
+print(u.num_components)#4
+u.union(1,0)
+print(u.num_components)#4
+u.union(1,2)
+print(u.num_components)#3
+u.union(0,2)
+print(u.num_components)#3
+u.union(2,1)
+print(u.num_components)#3
+u.union(3,4)
+print(u.num_components)#2
+u.union(4,3)
+print(u.num_components)#2
+u.union(1,3)
+print(u.num_components)#1
+u.union(4,0)
+print(u.num_components)#1
+
+#Hashtable - Open Addressing: Separate Chaining
+class hashTable:
+    def __init__(self, size=10):
+        self.size = size
+        self.keys = [-1] * size
+        self.value = [[None for i in  range(0,1)] for j in range(size)]
+        #self.ldf = 0.5 #Load Factor Not needed as list auto expand
+        #self.threshold = self.size * self.key
+        
+    def computeHash(self, key):
+        return key%10
+        
+    def addValue(self, value):
+        index = self.computeHash(value)
+        if(self.keys[index] == -1):
+            self.keys[index] = index
+        self.value[index].append(value)
+        if(None in self.value[index]):
+            self.value[index].remove(None)
+    
+    def __str__(self):
+        for i in self.keys:
+            s = str(i) + ": " + str(self.value[i])
+            print(s)
+        return " "
+    
+    def searchValue(self, value):
+        index = self.computeHash(value)
+        if(self.keys[index] == -1):
+            return "Value Absent"
+        elif(value in self.value[index]):
+            return "Element Present"
+        return "Element Absent"
+    
+#Main For HashTable
+h = hashTable()
+for i in range(1, 13):
+    h.addValue(i)
+print(h)
+h.searchValue(100)
+h.searchValue(11)
+
+#Fenwick Trees
+class Fenwick:
+    def __init__(self, arr):
+        self.tree = arr
+        self.build_Ftree()
+        
+        
+    def lsb(self, x):
+        return x & -x
+    
+    def build_Ftree(self):
+        for i in range(1,len(self.tree)):
+            j = i + self.lsb(i)
+            if(j<len(self.tree)):
+                self.tree[j] += self.tree[i]
+    
+    def prefixSum(self, i):
+        sum=0
+        while(i!=0):
+            sum+=self.tree[i]
+            i -= self.lsb(i)
+        return sum
+            
+    def sumRange(self, i, j):
+        if (j<i):
+            raise NameError("J cannot be less than I")
+        else:
+            return self.prefixSum(j) - self.prefixSum(i-1)#Why i-1?
+    
+    def pointUpdate(self, index, valueToAdd):
+        while(index<len(self.tree)):
+            self.tree[index] += valueToAdd
+            index += self.lsb(index)
+
+#Main for Fenwick Trees
+f = Fenwick([99,1,2,3,4,5,6])
+print(f.sumRange(1,6))
