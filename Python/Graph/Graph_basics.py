@@ -5,6 +5,7 @@ Created on Tue Jun 16 13:50:42 2020
 @author: Admin
 """
 from collections import defaultdict 
+
 class Graph:
     def __init__(self):
         self.graph = defaultdict(list)
